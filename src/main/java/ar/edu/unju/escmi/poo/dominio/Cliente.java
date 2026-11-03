@@ -1,10 +1,14 @@
 package ar.edu.unju.escmi.poo.dominio;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,23 +23,26 @@ public class Cliente implements Serializable {
 
     private String nombre;
     private String apellido;
-    private String dni;
-    private String email;
-    private String telefono;
+    private int dni;
+    private String domicilio;
+    private boolean estado;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Factura> facturas = new ArrayList<>();
 
     public Cliente() {
     }
 
-   
-    public Cliente(String nombre, String apellido, String dni, String email, String telefono) {
+    public Cliente(String nombre, String apellido,
+            int dni, String domicilio, boolean estado) {
+
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
-        this.email = email;
-        this.telefono = telefono;
+        this.domicilio = domicilio;
+        this.estado = estado;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -60,27 +67,35 @@ public class Cliente implements Serializable {
         this.apellido = apellido;
     }
 
-    public String getDni() {
+    public int getDni() {
         return dni;
     }
 
-    public void setDni(String dni) {
+    public void setDni(int dni) {
         this.dni = dni;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDomicilio() {
+        return domicilio;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public boolean isEstado() {
+        return estado;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
+    public List<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(List<Factura> facturas) {
+        this.facturas = facturas;
     }
 }

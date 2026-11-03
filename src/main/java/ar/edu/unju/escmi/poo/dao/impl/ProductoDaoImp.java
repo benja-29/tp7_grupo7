@@ -14,13 +14,13 @@ public class ProductoDaoImp implements IProductoDao {
     public void guardar(Producto producto) {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
+
             manager.getTransaction().begin();
-
             manager.persist(producto);
-
             manager.getTransaction().commit();
 
         } catch (Exception e) {
@@ -30,7 +30,8 @@ public class ProductoDaoImp implements IProductoDao {
             }
 
             throw new RuntimeException(
-                    "No se pudo guardar el producto", e);
+                    "No se pudo guardar el producto",
+                    e);
 
         } finally {
             manager.close();
@@ -41,10 +42,14 @@ public class ProductoDaoImp implements IProductoDao {
     public Producto buscarPorId(Long id) {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
-            return manager.find(Producto.class, id);
+
+            return manager.find(
+                    Producto.class,
+                    id);
 
         } finally {
             manager.close();
@@ -55,13 +60,13 @@ public class ProductoDaoImp implements IProductoDao {
     public void modificar(Producto producto) {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
+
             manager.getTransaction().begin();
-
             manager.merge(producto);
-
             manager.getTransaction().commit();
 
         } catch (Exception e) {
@@ -71,7 +76,8 @@ public class ProductoDaoImp implements IProductoDao {
             }
 
             throw new RuntimeException(
-                    "No se pudo modificar el producto", e);
+                    "No se pudo modificar el producto",
+                    e);
 
         } finally {
             manager.close();
@@ -82,16 +88,20 @@ public class ProductoDaoImp implements IProductoDao {
     public void eliminar(Producto producto) {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
+
             manager.getTransaction().begin();
 
-            Producto productoEncontrado =
-                    manager.find(Producto.class, producto.getId());
+            Producto encontrado =
+                    manager.find(
+                            Producto.class,
+                            producto.getId());
 
-            if (productoEncontrado != null) {
-                manager.remove(productoEncontrado);
+            if (encontrado != null) {
+                encontrado.setEstado(false);
             }
 
             manager.getTransaction().commit();
@@ -103,7 +113,8 @@ public class ProductoDaoImp implements IProductoDao {
             }
 
             throw new RuntimeException(
-                    "No se pudo eliminar el producto", e);
+                    "No se pudo eliminar el producto",
+                    e);
 
         } finally {
             manager.close();
@@ -114,13 +125,15 @@ public class ProductoDaoImp implements IProductoDao {
     public List<Producto> listarTodos() {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
 
             TypedQuery<Producto> query =
                     manager.createQuery(
-                            "SELECT p FROM Producto p",
+                            "SELECT p FROM Producto p "
+                            + "WHERE p.estado = true",
                             Producto.class);
 
             return query.getResultList();
