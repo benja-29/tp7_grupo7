@@ -1,6 +1,7 @@
 package ar.edu.unju.escmi.poo.dominio;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,26 +19,61 @@ public class Producto implements Serializable {
     private Long id;
 
     private String descripcion;
-    private Double precio;
-    private Integer stock;
+    private double precioUnitario;
+    private int stock;
+    private boolean estado;
 
-    public Producto() {}
+    public Producto() {
+    }
 
-    public Producto(String descripcion, Double precio, Integer stock) {
+    public Producto(String descripcion,
+            double precioUnitario,
+            int stock,
+            boolean estado) {
+
         this.descripcion = descripcion;
-        this.precio = precio;
+        this.precioUnitario = precioUnitario;
+        this.stock = stock;
+        this.estado = estado;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public boolean isEstado() {
+        return estado;
+    }
 
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-
-    public Double getPrecio() { return precio; }
-    public void setPrecio(Double precio) { this.precio = precio; }
-
-    public Integer getStock() { return stock; }
-    public void setStock(Integer stock) { this.stock = stock; }
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
 }

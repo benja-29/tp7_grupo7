@@ -14,13 +14,13 @@ public class ClienteDaoImp implements IClienteDao {
     public void guardar(Cliente cliente) {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
+
             manager.getTransaction().begin();
-
             manager.persist(cliente);
-
             manager.getTransaction().commit();
 
         } catch (Exception e) {
@@ -41,10 +41,14 @@ public class ClienteDaoImp implements IClienteDao {
     public Cliente buscarPorId(Long id) {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
-            return manager.find(Cliente.class, id);
+
+            return manager.find(
+                    Cliente.class,
+                    id);
 
         } finally {
             manager.close();
@@ -55,13 +59,13 @@ public class ClienteDaoImp implements IClienteDao {
     public void modificar(Cliente cliente) {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
+
             manager.getTransaction().begin();
-
             manager.merge(cliente);
-
             manager.getTransaction().commit();
 
         } catch (Exception e) {
@@ -71,7 +75,8 @@ public class ClienteDaoImp implements IClienteDao {
             }
 
             throw new RuntimeException(
-                    "No se pudo modificar el cliente", e);
+                    "No se pudo modificar el cliente",
+                    e);
 
         } finally {
             manager.close();
@@ -82,16 +87,20 @@ public class ClienteDaoImp implements IClienteDao {
     public void eliminar(Cliente cliente) {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
+
             manager.getTransaction().begin();
 
-            Cliente clienteEncontrado =
-                    manager.find(Cliente.class, cliente.getId());
+            Cliente encontrado =
+                    manager.find(
+                            Cliente.class,
+                            cliente.getId());
 
-            if (clienteEncontrado != null) {
-                manager.remove(clienteEncontrado);
+            if (encontrado != null) {
+                encontrado.setEstado(false);
             }
 
             manager.getTransaction().commit();
@@ -103,7 +112,8 @@ public class ClienteDaoImp implements IClienteDao {
             }
 
             throw new RuntimeException(
-                    "No se pudo eliminar el cliente", e);
+                    "No se pudo eliminar el cliente",
+                    e);
 
         } finally {
             manager.close();
@@ -114,13 +124,15 @@ public class ClienteDaoImp implements IClienteDao {
     public List<Cliente> listarTodos() {
 
         EntityManager manager =
-                EmfSingleton.getInstance().createEntityManager();
+                EmfSingleton.getInstance()
+                        .createEntityManager();
 
         try {
 
             TypedQuery<Cliente> query =
                     manager.createQuery(
-                            "SELECT c FROM Cliente c",
+                            "SELECT c FROM Cliente c "
+                            + "WHERE c.estado = true",
                             Cliente.class);
 
             return query.getResultList();
